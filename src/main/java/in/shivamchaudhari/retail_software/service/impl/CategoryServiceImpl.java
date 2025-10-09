@@ -9,7 +9,14 @@ import in.shivamchaudhari.retail_software.service.CategoryService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,11 +28,21 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public CategoryResponse add(CategoryRequest request) {
+    public CategoryResponse add(CategoryRequest request, MultipartFile file) throws IOException {
+        if(file.isEmpty()){
+            throw  new RuntimeException("file can't save");
+        }
 
-        CategoryEntity newEntity=convertToEntity(request);
-        newEntity =categoryRepository.save(newEntity);
-        return convertToResponse(newEntity);
+            String fileName = UUID.randomUUID().toString() + "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
+            Path uploadPath = Paths.get("uploads").toAbsolutePath().normalize();
+            Files.createDirectories(uploadPath);
+            Path targetLocation = uploadPath.resolve(fileName);
+            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            String imgUrl = "http://localhost:8080/api/v1.0/uploads/" + fileName;
+
+            CategoryEntity newEntity = convertToEntity(request, imgUrl);
+            newEntity = categoryRepository.save(newEntity);
+            return convertToResponse(newEntity);
 
     }
 
@@ -56,12 +73,13 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
     }
 
-    private CategoryEntity convertToEntity(CategoryRequest request) {
+    private CategoryEntity convertToEntity(CategoryRequest request,String imgUrl) {
         return CategoryEntity.builder()
                 .categoryId(UUID.randomUUID().toString())
                 .name(request.getName())
                 .description(request.getDescription())
                 .bgColour(request.getBgColour())
+                .imgUrl(imgUrl)
                 .build();
     }
 }
