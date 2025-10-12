@@ -1,14 +1,12 @@
 package in.shivamchaudhari.retail_software.service.impl;
 
 import in.shivamchaudhari.retail_software.entity.CategoryEntity;
-import in.shivamchaudhari.retail_software.io.RequestCategory;
-import in.shivamchaudhari.retail_software.io.ResponseCategory;
+import in.shivamchaudhari.retail_software.io.CategoryRequest;
+import in.shivamchaudhari.retail_software.io.CategoryResponse;
 import in.shivamchaudhari.retail_software.repository.CategoryRepository;
 import in.shivamchaudhari.retail_software.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +14,6 @@ import java.io.IOException;
 import java.nio.file.*;
 
 import java.util.List;
-import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService  {
 
     private final CategoryRepository categoryRepository;
     @Override
-    public ResponseCategory addCategory(RequestCategory request, MultipartFile file) throws IOException {
+    public CategoryResponse addCategory(CategoryRequest request, MultipartFile file) throws IOException {
 
         String fileNameExtension=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
         String fileName= UUID.randomUUID().toString()+"."+fileNameExtension;
@@ -43,8 +40,8 @@ public class CategoryServiceImpl implements CategoryService  {
        return convertToResponse(newEntity);
     }
 
-    private ResponseCategory convertToResponse(CategoryEntity newEntity) {
-        return ResponseCategory.builder()
+    private CategoryResponse convertToResponse(CategoryEntity newEntity) {
+        return CategoryResponse.builder()
                 .categoryId(newEntity.getCategoryId())
                 .name(newEntity.getName())
                 .description(newEntity.getDescription())
@@ -55,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService  {
                 .build();
     }
 
-    private CategoryEntity convertToEntity(RequestCategory request,String imgUrl) {
+    private CategoryEntity convertToEntity(CategoryRequest request, String imgUrl) {
         return CategoryEntity.builder()
                 .name(request.getName())
                 .bgColour(request.getBgColour())
@@ -65,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService  {
     }
 
     @Override
-    public List<ResponseCategory> read() {
+    public List<CategoryResponse> read() {
         return categoryRepository.findAll()
                 .stream()
                 .map(categoryEntity -> convertToResponse(categoryEntity))
