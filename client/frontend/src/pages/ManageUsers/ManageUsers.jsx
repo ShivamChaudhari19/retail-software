@@ -1,0 +1,21 @@
+import React from 'react'
+import "./ManageUsers.css"
+import UserForm from '../../componenets/UserForm/UserForm'
+import UserList from '../../componenets/UsersList/UserList'
+
+const ManageUsers = () => {
+  return (
+     <div className='users-container text-light'>
+      <div className='left-column'>
+          <UserForm/>
+      </div>
+
+      <div className='right-column'>
+         <UserList/>
+      </div>
+      
+    </div>
+  )
+}
+
+export default ManageUsers
