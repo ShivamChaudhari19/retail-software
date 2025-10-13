@@ -5,11 +5,10 @@ import in.shivamchaudhari.retail_software.io.UserResponse;
 import in.shivamchaudhari.retail_software.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +25,19 @@ public class UserController {
         {
             throw  new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not Registered");
         }
-        
+    }
+    @GetMapping("/users")
+    public List<UserResponse> getUser(){
+        return userService.readUser();
+    }
+
+    @DeleteMapping("/users/{userId}")
+    public void  deleteUser(@PathVariable String userId){
+        try{
+            userService.deleteUser(userId);
+        }catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not found");
+        }
     }
 }
