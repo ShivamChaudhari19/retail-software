@@ -37,12 +37,12 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/categories")
+    @GetMapping("category")
     public List<CategoryResponse> fetchCategory(){
         return categoryService.read();
     }
 
-    @DeleteMapping("/admin/{categoryId}")
+    @DeleteMapping("/admin/categories/{categoryId}")
     public void deleteCategory(@PathVariable String categoryId){
             try{
                 categoryService.delete(categoryId);

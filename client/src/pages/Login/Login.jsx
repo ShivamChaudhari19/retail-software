@@ -11,7 +11,7 @@ const Login = () => {
     const onChange = (e) =>{
         const name = e.target.name;
         const value = e.target.value;
-        setData((data) => )
+        // setData((data) => )
     }
 
     
