@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,13 +41,15 @@ public class AuthController {
     public AuthResponse login(@RequestBody AuthRequest request)throws Exception{
         authenticate(request.getEmail(),request.getPassword());
         final UserDetails userDetails= appuserDetailsService.loadUserByUsername(request.getEmail());
-        final String jwtToken=jwtUtil.generateToken(userDetails);
 
+        System.out.println("Generating JWT token...");
+        final String jwtToken=jwtUtil.generateToken(userDetails);
+//        final String jwtToken= UUID.randomUUID().toString();
         //TODO: fetch the role from repository
         String role=userService.getUserRole(request.getEmail());
 
 
-        return  new AuthResponse(request.getEmail(),role,request.getPassword());
+        return  new AuthResponse(request.getEmail(),role,jwtToken);
     }
     private void authenticate(String email,String password) throws Exception{
         try {

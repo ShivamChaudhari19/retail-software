@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,19 +16,27 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     @Value("${jwt.secret.key}")
-    private String SECRET_KEY;
+    private  String SECRET_KEY;
+
     public String generateToken(UserDetails userDetails){
-        Map<String,Object> claiams=new HashMap<>();
-        return  createToken(claiams,userDetails.getUsername());
+        Map<String,Object> claims=new HashMap<>();
+        System.out.println("Generating JWT token inside generate token...");
+        return  createToken(claims,userDetails.getUsername());
     }
-    private String createToken(Map<String,Object>claiams,String subject){
-        return Jwts.builder()
-                .setClaims(claiams)
+    private String createToken(Map<String,Object>claims,String subject){
+        String st= Jwts.builder()
+                .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*10))
-                .signWith(SignatureAlgorithm.HS256,SECRET_KEY)
+
+
+                //TODO: signWith is not generating a result solve the problem
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes(StandardCharsets.UTF_8))
                 .compact();
+
+        String a=st;
+        return st;
     }
     public  String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
