@@ -1,11 +1,11 @@
 import axios from "axios"
 
 export const addCategory = async (category) => {
-  return await axios.post('http://localhost:8080/api/v1.0/category', category)
+  return await axios.post('http://localhost:8080/api/v1.0/admin/categories', category)
 }
 
 export const deleteCategory = async (categoryID) => {
-    return await axios.delete(`'http://localhost:8080/api/v1.0/category'${categoryID}`)
+    return await axios.delete(`'http://localhost:8080/api/v1.0/admin/categories'${categoryID}`)
 }
 
 export const fetchCategories = async() => {
