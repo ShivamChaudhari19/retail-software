@@ -1,7 +1,7 @@
 import './App.css'
 import Menubar from './componenets/Menubar/Menubar'
 
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 
 import Dashboard from './pages/Dashboard/Dashboard'
 import Explor from './pages/Explore/Explor'
@@ -10,12 +10,15 @@ import ManageItems from './pages/ManageItems/ManageItems'
 import ManageUsers from './pages/ManageUsers/ManageUsers'
 import ManageCategoties from './pages/ManageCategories/ManageCategoties'
 import {Toaster} from "react-hot-toast"
+import Login from './pages/Login/Login'
 
 function App() {
 
+  const location = useLocation();
+
   return (
     <div>
-     <Menubar/>
+     {location.pathname !== "/login" && <Menubar/>}
      <Toaster/>
 
      <Routes >
@@ -24,6 +27,7 @@ function App() {
         <Route path="/users" element={<ManageUsers/>} />
         <Route path="/items" element={<ManageItems/>} />
         <Route path="/explor" element={<Explor/>} />
+        <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
      </Routes>
     </div>

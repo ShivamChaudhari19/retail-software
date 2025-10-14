@@ -11,7 +11,7 @@ export const AppContextProvider = (props) => {
         async function loaData() {
             const response = await fetchCategories();
             SetCategories(response.data);
-        }
+        } 
         loaData();
     }, [])
 
