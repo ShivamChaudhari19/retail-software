@@ -1,17 +1,44 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import {useNavigate} from 'react-router-dom'
 import "./Login.css"
+import { toast } from "react-toastify";
+import { login } from "../../service/AuthService";
+import { AppContext } from "../../context/AppContext";
 
 const Login = () => {
+    const {setAuthData} = useContext(AppContext);
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({
         email:"",
         password:"",
     });
 
-    const onChange = (e) =>{
+    const onChangeHandler = (e) =>{
         const name = e.target.name;
         const value = e.target.value;
-        setData((data) => )
+        setData((data) => ({...data, [name]: value}));
+    }
+
+    const onSubmitHandler = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try{
+           const response = await login(data);
+           if(response.status ===  200){
+            toast.success("Login Sucessfull");
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("role", response.data.role);
+            setAuthData(response.data.token, response.data.role)
+            navigate("./dashboard")
+           }
+        }catch(error) {
+            console.error(error);
+
+            toast.error("Email or password Invalid")
+        }finally{
+            setLoading(false);
+        }
     }
 
     
@@ -40,8 +67,8 @@ const Login = () => {
                                 <input type="password" name="password" id="passowrd" placeholder="******" className="form-control" onChange={onChangeHandler} value={data.password}/>
                             </div>
                             <div className="d-grid">
-                                <button type="submit" className="btn btn-dark btn-lg">
-                                    Sign in
+                                <button type="submit" className="btn btn-dark btn-lg" disabled={loading}>
+                                    {loading ? "Loading..." : "Sign in"}
                                 </button>
                             </div>
                         </form>

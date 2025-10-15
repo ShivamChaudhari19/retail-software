@@ -52,9 +52,7 @@ const CategoryFrom = () => {
         }finally{
             setLoading(false)
         }
-    }
-  
-
+    }   
 
     return (
         <div className="mx-2 mt-2">
@@ -80,13 +78,14 @@ const CategoryFrom = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="Descripation" className="form-label">Descripation</label>
+                                <label htmlFor="descripation" className="form-label">Descripation</label>
                                 <textarea
                                     rows="5"
-                                    name="Descripatione"
-                                    id="Descripation"
+                                    name="descripation"
+                                    id="descripation"
                                     className="form-control"
                                     placeholder="Write context here..."
+                                    
                                     onChange={onChangeHandler}
                                     value={data.descripation}
                                 ></textarea>
@@ -95,8 +94,8 @@ const CategoryFrom = () => {
                                 <label htmlFor="bgcolor" className="form-label">Background Color</label>
                                 <br />
                                 <input type="color"
-                                    name="bgcolor"
-                                    id="bgcolor"
+                                    name="bgColor"
+                                    id="bgColor"
                                     placeholder="#ffffff"
                                     onChange={onChangeHandler}
                                     value={data.bgColor}
