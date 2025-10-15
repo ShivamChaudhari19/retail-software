@@ -17,7 +17,6 @@ const Login = () => {
     const onChangeHandler = (e) =>{
         const name = e.target.name;
         const value = e.target.value;
-<<<<<<< HEAD
         setData((data) => ({...data, [name]: value}));
     }
 
@@ -40,9 +39,6 @@ const Login = () => {
         }finally{
             setLoading(false);
         }
-=======
-        // setData((data) => )
->>>>>>> d5c1893fe1dad2d7a3fc6a8399cc431c33fdd734
     }
 
     
