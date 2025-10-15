@@ -1,9 +1,11 @@
 package in.shivamchaudhari.retail_software.configuration;
 
 import in.shivamchaudhari.retail_software.filters.JwtRequestFilter;
+import in.shivamchaudhari.retail_software.service.impl.AppUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -29,13 +31,14 @@ import java.util.List;
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
+    private final AppUserDetailsService appUserDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth.requestMatchers("/login","/encode").permitAll()
-                        .requestMatchers("/categories","/item").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/category","/item").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -54,10 +57,12 @@ public class SecurityConfig {
 
     private UrlBasedCorsConfigurationSource corsConfigurationResource() {
         CorsConfiguration config =new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization","Content-Type"));
         config.setAllowCredentials(true);
-        config.setAllowedMethods(List.of("POST","GET","DELETE","PUT","PATCH","OPTION"));
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+
+//        config.addAllowedMethod(HttpMethod.POST);
         UrlBasedCorsConfigurationSource source=new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",config);
         return source;
@@ -65,7 +70,8 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(){
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(appUserDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(daoAuthenticationProvider);
     }

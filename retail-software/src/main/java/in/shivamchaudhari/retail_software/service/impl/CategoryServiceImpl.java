@@ -7,6 +7,7 @@ import in.shivamchaudhari.retail_software.repository.CategoryRepository;
 import in.shivamchaudhari.retail_software.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 @Data
-//@RequiredArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
+//@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService  {
 
     private final CategoryRepository categoryRepository;
@@ -54,6 +55,7 @@ public class CategoryServiceImpl implements CategoryService  {
 
     private CategoryEntity convertToEntity(CategoryRequest request, String imgUrl) {
         return CategoryEntity.builder()
+                .categoryId(UUID.randomUUID().toString())
                 .name(request.getName())
                 .bgColour(request.getBgColour())
                 .description(request.getDescription())
