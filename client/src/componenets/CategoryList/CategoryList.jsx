@@ -1,78 +1,90 @@
-import { useContext, useState } from "react"
-import { AppContext } from "../../context/AppContext"
-import "./CategoryList"
-import { deleteCategory } from "../../service/CategaryService"
-import { toast } from "react-hot-toast"
+import { useState } from "react";
+import "./CategoryList.css";
+import { toast } from "react-hot-toast";
 
-
+// Dummy Data (Electronic Categories)
 const dummyCategories = [
   {
     categoryID: 1,
-    name: "Fruits",
-    items: 12,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/415/415682.png",
-    bgColor: "#4CAF50",
+    name: "Smartphones",
+    items: 15,
+    imgUrl: "https://cdn-icons-png.flaticon.com/512/747/747376.png",
+    bgColor: "#FFFFFF",
+    textColor: "#000000",
   },
   {
     categoryID: 2,
-    name: "Vegetables",
-    items: 8,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/766/766149.png",
-    bgColor: "#FF9800",
+    name: "Laptops",
+    items: 10,
+    imgUrl: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+    bgColor: "#FFFFFF",
+    textColor: "#000000",
   },
   {
     categoryID: 3,
-    name: "Dairy Products",
-    items: 5,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/3480/3480441.png",
-    bgColor: "#2196F3",
+    name: "Headphones",
+    items: 8,
+    imgUrl: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
+    bgColor: "#FFFFFF",
+    textColor: "#000000",
   },
   {
     categoryID: 4,
-    name: "Bakery",
+    name: "Smartwatches",
     items: 6,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/415/415733.png",
-    bgColor: "#9C27B0",
+    imgUrl: "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
+    bgColor: "#FFFFFF",
+    textColor: "#000000",
+  },
+  {
+    categoryID: 5,
+    name: "Televisions",
+    items: 9,
+    imgUrl: "https://cdn-icons-png.flaticon.com/512/3104/3104009.png",
+    bgColor: "#FFFFFF",
+    textColor: "#000000",
   },
 ];
 
 const CategoryList = () => {
-  const { categories, setCategories } = useContext(AppContext);
-  // const [categories, setCategories]= useState(dummyCategories)
-  const [searchTerm, setSearchTerm] = useState('');
+  // const { categories, setCategories } = useContext(AppContext);
+  const [categories, setCategories] = useState(dummyCategories);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredCategories = Array.isArray(categories)
-    ? categories.filter(category =>
-      category.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    : [];
+  // Filter logic
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-
-  const deleteByCategoryID = async (categoryID) => {
-    try {
-      const response = await deleteCategory(categoryID);
-      if (response.status === 204) {
-        const updatedCategories = categories.filter(category => category => category.categoryID !== categoryID);
-        setCategories(updatedCategories);
-        toast.success("Category deleted");
-      } else {
-        toast.error("Unable to delete category");
-      }
-    } catch (error) {
-      //error msg
-      console.error(error);
-      toast.error("Unable to delete category");
+  // Delete category
+  const deleteByCategoryID = (categoryID) => {
+    if (window.confirm("Are you sure you want to delete this category?")) {
+      const updatedCategories = categories.filter(
+        (category) => category.categoryID !== categoryID
+      );
+      setCategories(updatedCategories);
+      toast.success("Category deleted successfully!");
     }
-  }
+  };
 
   return (
-    <div className="category-list-container" style={{ height: '100vh', overflowY: 'auto', overflowX: 'hidden' }}>
-      <div className="row pe-2">
-        <div className="input-group mb-3">
-          <input type="text"
+    <div
+      className="category-list-container container py-3"
+      style={{
+        minHeight: "100vh",
+        overflowY: "auto",
+        overflowX: "hidden",
+        backgroundColor: "#f7f7f7",
+      }}
+    >
+      {/* Search bar */}
+      <div className="row mb-3 pe-2">
+        <div className="input-group">
+          <input
+            type="text"
             name="keyword"
             id="keyword"
-            placeholder="Search by keyword"
+            placeholder="Search by keyword..."
             className="form-control"
             onChange={(e) => setSearchTerm(e.target.value)}
             value={searchTerm}
@@ -82,29 +94,42 @@ const CategoryList = () => {
           </span>
         </div>
       </div>
+
+      {/* Category cards */}
       <div className="row g-3 pe-2">
         {filteredCategories.length > 0 ? (
           filteredCategories.map((category, index) => (
             <div key={index} className="col-12">
-              <div className="card p-3" style={{ backgroundColor: category.bgColor }}>
+              <div
+                className="card p-3 shadow-sm border-0 rounded-3"
+                style={{
+                  backgroundColor: category.bgColor,
+                  color: category.textColor,
+                }}
+              >
                 <div className="d-flex align-items-center">
                   <div style={{ marginRight: "15px" }}>
                     <img
                       src={category.imgUrl}
                       alt={category.name}
-                      className="category-image w-25 h-25"
+                      className="category-image"
+                      style={{
+                        width: "60px",
+                        height: "60px",
+                        objectFit: "contain",
+                      }}
                     />
                   </div>
 
                   <div className="flex-grow-1">
-                    <h5 className="mb-1 text-white">{category.name}</h5>
-                    <p className="mb-0 text-white">{category.items} Items</p>
+                    <h5 className="mb-1 fw-bold">{category.name}</h5>
+                    <p className="mb-0">{category.items} Items</p>
                   </div>
 
                   <div>
                     <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => deleteByCategoryID(category.categoryID)} // ✅ pass ID
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={() => deleteByCategoryID(category.categoryID)}
                     >
                       <i className="bi bi-trash"></i>
                     </button>
@@ -114,12 +139,11 @@ const CategoryList = () => {
             </div>
           ))
         ) : (
-          <div className="text-center text-white">No categories found</div>
+          <div className="text-center text-muted">No categories found</div>
         )}
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default CategoryList
+export default CategoryList;
