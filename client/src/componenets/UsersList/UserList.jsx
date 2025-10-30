@@ -72,6 +72,8 @@ const UserList = ({ users, setUsers }) => {
       </div>
     </div>
   );
-};
+};git push origin master
+git commit -m "Added Manageuser and userList"
+
 
 export default UserList;
