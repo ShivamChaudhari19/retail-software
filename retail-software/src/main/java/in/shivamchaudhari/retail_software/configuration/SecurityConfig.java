@@ -30,7 +30,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailsService;
     private final AppUserDetailsService appUserDetailsService;
     private final JwtRequestFilter jwtRequestFilter;
     @Bean
@@ -38,7 +37,7 @@ public class SecurityConfig {
         http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->auth.requestMatchers("/login","/encode").permitAll()
-                        .requestMatchers("/category","/items").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/category","/items","/orders","/payments").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
