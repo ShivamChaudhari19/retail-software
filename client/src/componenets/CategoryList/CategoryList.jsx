@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./CategoryList.css";
 import { toast } from "react-hot-toast";
+import { AppContext } from "../../context/AppContext";
+
+
 
 // Dummy Data (Electronic Categories)
 const dummyCategories = [
@@ -47,8 +50,8 @@ const dummyCategories = [
 ];
 
 const CategoryList = () => {
-  // const { categories, setCategories } = useContext(AppContext);
-  const [categories, setCategories] = useState(dummyCategories);
+  const { categories, setCategories } = useContext(AppContext);
+  // const [categories, setCategories] = useState(dummyCategories);
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter logic
@@ -71,7 +74,7 @@ const CategoryList = () => {
     <div
       className="category-list-container container py-3"
       style={{
-        minHeight: "100vh",
+        minHeight: "75vh",
         overflowY: "auto",
         overflowX: "hidden",
         backgroundColor: "#f7f7f7",
@@ -147,3 +150,47 @@ const CategoryList = () => {
 };
 
 export default CategoryList;
+
+
+
+
+
+
+// import { useContext, useState } from "react";
+// import "./CategoryList.css";
+// import { toast } from "react-hot-toast";
+// import { AppContext } from "../../context/AppContext";
+
+// const CategoryList = () => {
+
+//   const { categories } = useContext(AppContext)
+
+//   return (
+//     <div>
+//       <div className="category-list-container" style={{ height: "100vh", overflowY: 'auto', overflowX: 'hidden' }}>
+//         <div className="row pe2">
+//           search Bar
+//         </div>
+//         <div className="row g-3 pe-2">
+//           {categories.map((category, index) => (
+//             <div key={index} className="col-12">
+//               <div className="card p-3" style={{ background: category.bgColore }}>
+//                 <div className="d-flex align-items-center">
+//                   <div style={{ marginRight: "15px" }}>
+//                     <img src={category.imaURl} alt={category.name} className="category-image"/>
+//                   </div>
+//                   <div className="flex-grow-1">
+//                     <h5 className="mb-1 text-white">{category.name}</h5>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default CategoryList
