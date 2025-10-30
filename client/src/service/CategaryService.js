@@ -5,7 +5,13 @@ export const addCategory = async (category) => {
 }
 
 export const deleteCategory = async (categoryID) => {
-    return await axios.delete(`'http://localhost:8080/api/v1.0/admin/categories'${categoryID}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}});
+    return await axios.delete(`http://localhost:8080/api/v1.0/admin/categories/${categoryID}`,
+       {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      }
+    );
 }
 
 export const fetchCategories = async() => {

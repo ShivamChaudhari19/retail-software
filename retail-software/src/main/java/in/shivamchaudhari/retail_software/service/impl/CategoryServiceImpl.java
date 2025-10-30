@@ -4,8 +4,8 @@ import in.shivamchaudhari.retail_software.entity.CategoryEntity;
 import in.shivamchaudhari.retail_software.io.CategoryRequest;
 import in.shivamchaudhari.retail_software.io.CategoryResponse;
 import in.shivamchaudhari.retail_software.repository.CategoryRepository;
+import in.shivamchaudhari.retail_software.repository.ItemRepository;
 import in.shivamchaudhari.retail_software.service.CategoryService;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService  {
 
     private final CategoryRepository categoryRepository;
+    private final ItemRepository itemRepository;
+
     @Override
     public CategoryResponse addCategory(CategoryRequest request, MultipartFile file) throws IOException {
 
@@ -42,6 +44,7 @@ public class CategoryServiceImpl implements CategoryService  {
     }
 
     private CategoryResponse convertToResponse(CategoryEntity newEntity) {
+        Integer itemCount =itemRepository.countByCategoryId(newEntity.getId());
         return CategoryResponse.builder()
                 .categoryId(newEntity.getCategoryId())
                 .name(newEntity.getName())
@@ -50,6 +53,7 @@ public class CategoryServiceImpl implements CategoryService  {
                 .imgUrl(newEntity.getImgUrl())
                 .createdAt(newEntity.getCreatedAt())
                 .updatedAt(newEntity.getUpdatedAt())
+                .items(itemCount)
                 .build();
     }
 
