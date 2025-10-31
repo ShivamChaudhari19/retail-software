@@ -43,7 +43,7 @@ const UserForm = ({setUsers}) => {
   return (
     <div className="mx-2 mt-2">
         <div className="row">
-            <div className="card col-md-12 form-container">
+            <div className="card col-md-11 form-container">
                 <div className="card-body">
                     <form onSubmit={onSubmitHadndler}>
                         <div className="mb-3">
