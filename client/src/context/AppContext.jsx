@@ -11,7 +11,7 @@ export const AppContextProvider = (props) => {
     
     useEffect(() => {
         async function loadData() {
-            if(localStorage.getItem("token" && localStorage.gitItem("role"))){
+            if(localStorage.getItem("token" && localStorage.getItem("role"))){
                 setAuthData(
                     localStorage.getItem('token'),
                     localStorage.getItem("role")

@@ -1,36 +1,45 @@
 import "./Explor.css"
 import { AppContext } from "../../context/AppContext"
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import DisplayCategory from "../../componenets/DisplayCategory/DisplayCategory";
+import DisplayItems from "../../componenets/DisplayItems/DisplayItems";
+import CustomerForm from "../../componenets/CustomerForm/CustomerForm";
+import CardItem from "../../componenets/CardItem/CardItem";
+import CardSummary from "../../componenets/CardSummary/CardSummary";
 
 const Explor = () => {
 
   const {categories} = useContext(AppContext)
-  console.log(categories);
+  const[selectedCategory, setSelectedCategory] = useState("");
+
   
   return (
     <div className='explor-container text-light'>
       <div className='left-column'>
 
         <div className="first-row" style={{ overflow: "auto" }}>
-          Categories
+          <DisplayCategory 
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          categories={categories} />
         </div>
 
         <hr className='horizontal-line' />
         <div className='second-row' style={{ overflow: "auto" }}>
-          Items
+          <DisplayItems />
         </div>
       </div>
 
       <div className='right-column d-flex flex-column'>
         <div className="customer-form-container" style={{ height: '15%' }}>
-          Customer Form
+          <CustomerForm />
         </div>
         <hr className='my-3 text-light' />
         <div className='cart-items-container' style={{ height: "55%", overflowY: 'auto' }}>
-          Card Items
+          <CardItem/>
         </div>
         <div className="cart-summary-container" style={{ height: "30%" }}>
-          Card Summary
+          <CardSummary/>
         </div>
       </div>
     </div>
