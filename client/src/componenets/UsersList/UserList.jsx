@@ -18,7 +18,7 @@ const UserList = ({ users, setUsers }) => {
       console.error(e);
       toast.error("Unable to deleting user")
     }
-  };
+  }; 
 
   return (
     <div

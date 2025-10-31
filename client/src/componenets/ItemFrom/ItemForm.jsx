@@ -6,7 +6,7 @@ import {toast} from "react-toastify"
 
 const ItemForm = () => {
 
-    const {categories, setItemsData, itemsData} = useContext(AppContext);
+    const {categories, setItemsData, itemsData, setCategories} = useContext(AppContext);
     const [image, setImage] = useState(false);
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({
@@ -22,43 +22,79 @@ const ItemForm = () => {
         setData((data)=> ({...data, [name]:value}));
     }
 
-
-    //gpt
+    //rohan
     const onSubmitHandler = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-        if (!image) {
-            toast.error("Select image");
-            return;
-        }
-
+        e.preventDefault();
+        setLoading(true);
         const formData = new FormData();
         formData.append("item", JSON.stringify(data));
         formData.append("file", image);
-
-        const response = await addItem(formData);
-
-        if (response.status === 201) {
-            toast.success("Item added");
-            setItemsData([...itemsData, response.data]);
-            setData({
-                name: "",
-                descripation: "",
-                price: "",
-                categoryId: "",
-            });
-        } else {
+        try{
+            if(!image){
+                toast.error("Select image");
+                return;
+            }
+            const response = await addItem(formData);
+            if(response.status === 201){
+                setItemsData([...itemsData, response.data]);
+                setCategories((prevCategories) => 
+                prevCategories.map((category) => category.categoryId === data.categoryId ? {...category, items: category.items + 1}: category))
+                toast.success("item added")
+                setData({
+                    name:"",
+                    descripation:"",
+                    price:"",
+                    categoryId:"",
+                })
+                setImage(false);
+            } else{
+                toast.error("Unable to add item");
+            }
+        } catch(error) {
+            console.error(error);
             toast.error("Unable to add item");
+        } finally{
+            setLoading(false);
         }
-    } catch (error) {
-        console.error(error);
-        toast.error("Something went wrong");
-    } finally {
-        setLoading(false);
     }
-};
+
+
+    // //gpt
+    // const onSubmitHandler = async (e) => {
+    // e.preventDefault();
+    // setLoading(true);
+
+    // try {
+    //     if (!image) {
+    //         toast.error("Select image");
+    //         return;
+    //     }
+
+    //     const formData = new FormData();
+    //     formData.append("item", JSON.stringify(data));
+    //     formData.append("file", image);
+
+    //     const response = await addItem(formData);
+
+    //     if (response.status === 201) {
+    //         toast.success("Item added");
+    //         setItemsData([...itemsData, response.data]);
+    //         setData({
+    //             name: "",
+    //             descripation: "",
+    //             price: "",
+    //             categoryId: "",
+    //         });
+    //     } else {
+    //         toast.error("Unable to add item");
+    //     }
+    // } catch (error) {
+    //     console.error(error);
+    //     toast.error("Something went wrong");
+    // } finally {
+    //     setLoading(false);
+    // }
+// };
 
 
   return (
