@@ -26,7 +26,7 @@ const Explor = () => {
 
         <hr className='horizontal-line' />
         <div className='second-row' style={{ overflow: "auto" }}>
-          <DisplayItems />
+          <DisplayItems selectedCategory={selectedCategory}/>
         </div>
       </div>
 
