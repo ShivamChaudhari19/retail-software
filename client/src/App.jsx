@@ -11,7 +11,13 @@ import ManageUsers from './pages/ManageUsers/ManageUsers'
 import ManageCategoties from './pages/ManageCategories/ManageCategoties'
 import {Toaster} from "react-hot-toast"
 import Login from './pages/Login/Login'
-
+// const App=()=>{
+//   return(
+//     <div>
+//       <Menubar/>
+//     </div>
+//   )
+// }
 function App() {
 
   const location = useLocation();

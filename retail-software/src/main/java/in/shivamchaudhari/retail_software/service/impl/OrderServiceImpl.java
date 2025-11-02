@@ -24,8 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    @Value("${my-secret-key}")
-    private final String secret;
+    //fixme: String value of my.secret.key not injecting while building of the project
+    @Value("${razorpay.key.secret}")
+    private String secret;
     private final OrderEntityRepository orderEntityRepository;
     @Override
     public OrderResponse createOrder(OrderRequest request) {

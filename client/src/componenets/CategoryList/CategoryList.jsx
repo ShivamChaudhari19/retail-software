@@ -1,10 +1,7 @@
 import { useContext, useState } from "react";
 import "./CategoryList.css";
 import { toast } from "react-hot-toast";
-import { AppContext } from "../../context/AppContext";
-
-
-
+import {AppContext} from "../../context/AppContext";
 // Dummy Data (Electronic Categories)
 const dummyCategories = [
   {
