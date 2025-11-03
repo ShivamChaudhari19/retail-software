@@ -111,7 +111,7 @@ const ItemForm = () => {
                             <input type="file" name="image" id="image" className="form-controle" hidden onChange={(e) => setImage(e.target.files[0])}/>
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="name" className="form-label">item Name</label>
+                            <label htmlFor="name" className="form-label">Name</label>
                             <input type="text"
                             name="name"
                             id="name"
@@ -119,6 +119,7 @@ const ItemForm = () => {
                             placeholder="Item Name"
                             onChange={onChangeHandler}
                             value={data.name}
+                            required
                             />
                         </div>
 
@@ -126,7 +127,7 @@ const ItemForm = () => {
                             <label className='form-label' htmlFor='category'>
                                 Category
                             </label>
-                            <select name="categroyId" id="category" className="form-control" onChange={onChangeHandler} value={data.categoryId}>
+                            <select name="categroyId" id="category" className="form-control" onChange={onChangeHandler} value={data.categoryId} required>
                                 <option value="">--SELECT CATEGORY--</option>
                                 {categories.map((category, index) => (
                                     <option key={index} value={category.categoryId}>{category.name}</option>
@@ -136,7 +137,7 @@ const ItemForm = () => {
 
                         <div className='mb-3'>
                             <label className='form-label' htmlFor='price'>Price</label>
-                            <input type='number' name='price' id='price' className='form-control' placeholder='&#8377;200.00' onChange={onChangeHandler} value={data.price}/>
+                            <input type='number' name='price' id='price' className='form-control' placeholder='&#8377;200.00' onChange={onChangeHandler} value={data.price} required/>
                             
                         </div>
 

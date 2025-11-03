@@ -165,7 +165,7 @@ const CardSummary = ({customerName, mobileNumber, setMobileNumber, setCustomerNa
       <div className="card-summary-details">
         <div className="d-flex justify-content-betwwen">
           <span className="text-light">Item: </span>
-          <spna className="text-light">₹{totalAmount.toFixed(2)}</spna>
+          <span className="text-light">₹{totalAmount.toFixed(2)}</span>
         </div>
         <div className="d-flex justify-content-between">
           <span className="text-light">Tax (1%):</span>

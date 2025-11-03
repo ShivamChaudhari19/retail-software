@@ -42,6 +42,7 @@ export const AppContextProvider = (props) => {
             setCategories(response.data);
             setItemsData(itemResponse.data);
 
+            
         } 
         loadData();
     }, [])
