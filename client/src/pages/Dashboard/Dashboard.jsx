@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Dashboard.css'
+import { fetchDashboardData } from '../../service/Dashboard';
+import {toast} from "react-toastify"
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
@@ -12,7 +14,7 @@ const Dashboard = () => {
       } catch (error) {
         console.error(error);
         toast.error("Unable to view the data");
-      } finally{
+      } finally {
         setLoading(false);
       }
     }
