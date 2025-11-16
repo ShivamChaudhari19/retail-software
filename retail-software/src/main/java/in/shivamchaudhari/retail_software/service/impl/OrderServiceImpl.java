@@ -24,8 +24,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    @Value("${my-secret-key}")
-    private final String secret;
+    // @Value("${my-secret-key}")    wrong
+
+    // correct
+    @Value("${jwt.secret.key}")
+    private final String secret="mysecretkeyfortheapplication789387&(";
     private final OrderEntityRepository orderEntityRepository;
     @Override
     public OrderResponse createOrder(OrderRequest request) {
