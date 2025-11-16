@@ -14,8 +14,6 @@ import OrderHistory from './pages/OrderHistory/OrderHistory'
 import { useContext } from 'react'
 import { AppContext } from './context/AppContext'
 import Notfound from './pages/Notfound/Notfound'
-import ChatBot from './pages/ChatBot/ChatBot'
-import BusinessGrowth from './pages/BusinessGrowth/BusinessGrowth'
 
 function App() {
 
@@ -47,12 +45,8 @@ function App() {
      <Toaster/>
 
      <Routes >
-      
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/explor" element={<Explor/>} />
-        {/* <Route path="/chatbot" element={<ChatBot />} /> */}
-        {/* <Route path="/business" element={<BusinessGrowth />} /> */}
-
         {/* Admin only routes */}
         <Route path="/category" element={<ProtectedRoute element={<ManageCategoties/>} allowedRoles={['ROLE_ADMIN']}/>} />
         <Route path="/users" element={<ProtectedRoute element={<ManageUsers/>} allowedRoles={['ROLE_ADMIN']}/>} />
@@ -61,8 +55,6 @@ function App() {
         <Route path="/login" element={<LoginRoute element={<Login/>} />} />
         <Route path='/orders' element={<OrderHistory/>}/>
         <Route path="/" element={<Dashboard/>} />
-
-        
 
         <Route path="*" element={<Notfound />} />
 
