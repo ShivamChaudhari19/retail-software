@@ -10,11 +10,14 @@ import in.shivamchaudhari.retail_software.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -133,6 +136,24 @@ public class OrderServiceImpl implements OrderService {
 //        existingOrder.setPaymentDetails(paymentDetails);
         existingOrder=orderEntityRepository.save(existingOrder);
         return convertToOrderResponse(existingOrder);
+    }
+
+    @Override
+    public Double sumSalesByDate(LocalDate date) {
+        return orderEntityRepository.sumSaleByDate(date);
+    }
+
+    @Override
+    public Long countByOrderDate(LocalDate date) {
+        return orderEntityRepository.countByOrderDate(date);
+    }
+
+    @Override
+    public List<OrderResponse> findRecentOrders() {
+        return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
+                .stream()
+                .map(this::convertToOrderResponse)
+                .collect(Collectors.toList());
     }
 
 

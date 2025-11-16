@@ -36,7 +36,7 @@ const Menubar = () => {
                         <Link className={`nav-link ${isActive('./dashboard') ? 'fw-bold text-warning' : ''}`} to="/dashboard">Dashboard</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className={`nav-link ${isActive('./explor') ? 'fw-bold text-warning' : ''}`} to="/explor">Explore</Link>
+                        <Link className={`nav-link ${isActive('./explor') ? 'fw-bold text-warning' : ''}`} to="/explore">Explore</Link>
                     </li>
                     {
                         isAdmin && (
