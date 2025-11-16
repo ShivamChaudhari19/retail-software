@@ -38,13 +38,13 @@ const Menubar = () => {
                     <li className="nav-item">
                         <Link className={`nav-link ${isActive('./explor') ? 'fw-bold text-warning' : ''}`} to="/explor">Explore</Link>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link className={`nav-link ${isActive('./chatbot') ? 'fw-bold text-warning' : ''}`} to="/chatbot">ChatBot</Link>
-                    </li>
+                    </li> */}
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link className={`nav-link ${isActive('./business') ? 'fw-bold text-warning' : ''}`} to="/business">BusinessGrowth</Link>
-                    </li>
+                    </li> */}
                     {
                         isAdmin && (
                             <>

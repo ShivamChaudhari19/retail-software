@@ -50,8 +50,8 @@ function App() {
       
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/explor" element={<Explor/>} />
-        <Route path="/chatbot" element={<ChatBot />} />
-        <Route path="/business" element={<BusinessGrowth />} />
+        {/* <Route path="/chatbot" element={<ChatBot />} /> */}
+        {/* <Route path="/business" element={<BusinessGrowth />} /> */}
 
         {/* Admin only routes */}
         <Route path="/category" element={<ProtectedRoute element={<ManageCategoties/>} allowedRoles={['ROLE_ADMIN']}/>} />
