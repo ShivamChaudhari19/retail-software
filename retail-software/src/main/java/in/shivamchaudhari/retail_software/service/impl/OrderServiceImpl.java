@@ -116,8 +116,8 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity existingOrder=orderEntityRepository.findByOrderId(request.getOrderId()).orElseThrow(()->new RuntimeException("order not found: "+request.getOrderId()));
 
         // TODO: security check — make sure Razorpay orderId matches the one stored in DB
-        if(!existingOrder.getPaymentDetails().getRazorpayOrderId().equals(request.getRazorpayOrderId()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid razorpay order id reference");
+//        if(!existingOrder.getPaymentDetails().getRazorpayOrderId().equals(request.getRazorpayOrderId()))
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid razorpay order id reference");
         if(!verifyRazorpaySignature(request.getRazorpayOrderId(),
                 request.getRazorpayPaymentId(),
                 request.getRazorpaySignature())

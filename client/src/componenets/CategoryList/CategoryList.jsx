@@ -3,48 +3,48 @@ import "./CategoryList.css";
 import { toast } from "react-hot-toast";
 import {AppContext} from "../../context/AppContext";
 // Dummy Data (Electronic Categories)
-const dummyCategories = [
-  {
-    categoryID: 1,
-    name: "Smartphones",
-    items: 15,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/747/747376.png",
-    bgColor: "#FFFFFF",
-    textColor: "#000000",
-  },
-  {
-    categoryID: 2,
-    name: "Laptops",
-    items: 10,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-    bgColor: "#FFFFFF",
-    textColor: "#000000",
-  },
-  {
-    categoryID: 3,
-    name: "Headphones",
-    items: 8,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
-    bgColor: "#FFFFFF",
-    textColor: "#000000",
-  },
-  {
-    categoryID: 4,
-    name: "Smartwatches",
-    items: 6,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
-    bgColor: "#FFFFFF",
-    textColor: "#000000",
-  },
-  {
-    categoryID: 5,
-    name: "Televisions",
-    items: 9,
-    imgUrl: "https://cdn-icons-png.flaticon.com/512/3104/3104009.png",
-    bgColor: "#FFFFFF",
-    textColor: "#000000",
-  },
-];
+// const dummyCategories = [
+//   {
+//     categoryID: 1,
+//     name: "Smartphones",
+//     items: 15,
+//     imgUrl: "https://cdn-icons-png.flaticon.com/512/747/747376.png",
+//     bgColor: "#FFFFFF",
+//     textColor: "#000000",
+//   },
+//   {
+//     categoryID: 2,
+//     name: "Laptops",
+//     items: 10,
+//     imgUrl: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+//     bgColor: "#FFFFFF",
+//     textColor: "#000000",
+//   },
+//   {
+//     categoryID: 3,
+//     name: "Headphones",
+//     items: 8,
+//     imgUrl: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
+//     bgColor: "#FFFFFF",
+//     textColor: "#000000",
+//   },
+//   {
+//     categoryID: 4,
+//     name: "Smartwatches",
+//     items: 6,
+//     imgUrl: "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
+//     bgColor: "#FFFFFF",
+//     textColor: "#000000",
+//   },
+//   {
+//     categoryID: 5,
+//     name: "Televisions",
+//     items: 9,
+//     imgUrl: "https://cdn-icons-png.flaticon.com/512/3104/3104009.png",
+//     bgColor: "#FFFFFF",
+//     textColor: "#000000",
+//   },
+// ];
 
 const CategoryList = () => {
   const { categories, setCategories } = useContext(AppContext);

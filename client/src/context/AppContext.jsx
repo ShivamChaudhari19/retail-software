@@ -28,27 +28,30 @@ export const AppContextProvider = (props) => {
     }
 
     
-    useEffect(() => {
-        async function loadData() {
-            if(localStorage.getItem("token" && localStorage.getItem("role"))){
-                setAuthData(
-                    localStorage.getItem('token'),
-                    localStorage.getItem("role")
-                );
-            }
-            const response = await fetchCategories();
-            const itemResponse = await fetchItems();
-            console.log("item response", itemResponse);
-            setCategories(response.data);
-            setItemsData(itemResponse.data);
-
-        } 
-        loadData();
-    }, [])
-
     const setAuthData = (token, role) => {
         setAuth({token, role});
     }
+
+    useEffect(() => {
+        async function loadData() {
+            try{
+                const token = localStorage.getItem('token');
+                const role = localStorage.getItem('role');
+                if(token && role){
+                    setAuthData(token, role);
+                }
+                const response = await fetchCategories();
+                if(response && response.data){
+                    setCategories(response.data);
+                }
+            } catch(err){
+                console.error('Error loading initial data:', err);
+            }
+        }
+        loadData();
+    }, [])
+
+    
 
     const contextValue = {
         categories,
