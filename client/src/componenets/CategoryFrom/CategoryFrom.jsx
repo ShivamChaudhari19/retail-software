@@ -71,7 +71,7 @@ const CategoryFrom = () => {
                                 <input type="file" name="image" id="image" className="form-controle" hidden onChange={(e) => setImage(e.target.files[0])} />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="name" className="form-label">CName</label>
+                                <label htmlFor="name" className="form-label">Name</label>
                                 <input type="text"
                                     name="name"
                                     id="name"
@@ -79,6 +79,7 @@ const CategoryFrom = () => {
                                     placeholder="Category Name"
                                     onChange={onChangeHandler}
                                     value={data.name}
+                                    required
                                 />
                             </div>
                             <div className="mb-3">
@@ -89,7 +90,6 @@ const CategoryFrom = () => {
                                     id="descripation"
                                     className="form-control"
                                     placeholder="Write context here..."
-                                    
                                     onChange={onChangeHandler}
                                     value={data.descripation}
                                 ></textarea>
@@ -103,6 +103,7 @@ const CategoryFrom = () => {
                                     placeholder="#ffffff"
                                     onChange={onChangeHandler}
                                     value={data.bgColor}
+                                    
                                 />
                             </div>
                             <button type="submit" 

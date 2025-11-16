@@ -5,22 +5,39 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 
 import Dashboard from './pages/Dashboard/Dashboard'
 import Explor from './pages/Explore/Explor'
-// import ManageCategoties from './pages/ManageCategories/ManageCategoties'
 import ManageItems from './pages/ManageItems/ManageItems'
 import ManageUsers from './pages/ManageUsers/ManageUsers'
 import ManageCategoties from './pages/ManageCategories/ManageCategoties'
 import {Toaster} from "react-hot-toast"
 import Login from './pages/Login/Login'
-// const App=()=>{
-//   return(
-//     <div>
-//       <Menubar/>
-//     </div>
-//   )
-// }
+import OrderHistory from './pages/OrderHistory/OrderHistory'
+import { useContext } from 'react'
+import { AppContext } from './context/AppContext'
+import Notfound from './pages/Notfound/Notfound'
+
 function App() {
 
   const location = useLocation();
+  const {auth} = useContext(AppContext);
+
+  const LoginRoute = ({element}) => {
+    if(auth.token){
+      return <Navigate to="/dashboard" replace />
+    }
+    return element;
+  }
+
+  const ProtectedRoute = ({element, allowedRoles}) => {
+    if(!auth.token){
+      return <Navigate to="/login" replace/>
+    }
+
+    if(allowedRoles && !allowedRoles.include(auth.role)){
+      return <Navigate to="/dashboard" replace/> 
+    }
+    return element;
+    
+  }
 
   return (
     <div>
@@ -29,13 +46,18 @@ function App() {
 
      <Routes >
         <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/category" element={<ManageCategoties/>} />
-        <Route path="/users" element={<ManageUsers/>} />
-        <Route path="/items" element={<ManageItems/>} />
         <Route path="/explor" element={<Explor/>} />
-        <Route path="/login" element={<Login/>} />
+        {/* Admin only routes */}
+        <Route path="/category" element={<ProtectedRoute element={<ManageCategoties/>} allowedRoles={['ROLE_ADMIN']}/>} />
+        <Route path="/users" element={<ProtectedRoute element={<ManageUsers/>} allowedRoles={['ROLE_ADMIN']}/>} />
+        <Route path="/items" element={<ProtectedRoute element={<ManageItems/>} allowedRoles={['ROLE_ADMIN']}/>} />
+
+        <Route path="/login" element={<LoginRoute element={<Login/>} />} />
+        <Route path='/orders' element={<OrderHistory/>}/>
         <Route path="/" element={<Dashboard/>} />
-      
+
+        <Route path="*" element={<Notfound />} />
+
      </Routes>
     </div>
   )
