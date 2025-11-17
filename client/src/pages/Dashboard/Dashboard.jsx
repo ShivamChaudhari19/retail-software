@@ -6,20 +6,20 @@ import {toast} from "react-toastify"
 const Dashboard = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const loadData = async () => {
-      try{
-        const response = await fetchDashboardData();
-        setData(response.data);
-      } catch (error) {
-        console.error(error);
-        toast.error("Unable to view the data");
-      } finally {
-        setLoading(false);
-      }
+ useEffect(() => {
+  const loadData = async () => {
+    try {
+      const response = await fetchDashboardData(); // axios response
+      setData(response.data);
+    } catch (error) {
+      console.error(error); // error
+      toast.error("Unable to view the data");
+    } finally {
+      setLoading(false);
     }
-    loadData();
-  }, []);
+  };
+  loadData();
+}, []);
 
   if(loading){
     return <div className='loading'>Loading dashboard...</div>

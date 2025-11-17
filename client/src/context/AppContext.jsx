@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { fetchCategories } from "../service/CategaryService";
+import { fetchItems } from "../service/ItemService";
 
 export const AppContext = createContext(null);
 
@@ -41,8 +42,6 @@ export const AppContextProvider = (props) => {
             console.log("item response", itemResponse);
             setCategories(response.data);
             setItemsData(itemResponse.data);
-
-            
         } 
         loadData();
     }, [])

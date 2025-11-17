@@ -62,7 +62,7 @@ const ChatBot = () => {
     <div className={`container ${showChatbot ? "show-chatbot" : ""}`}>
       {/* Chat toggle button */}
       <button onClick={() => setShowChatbot(prev => !prev)} id="chatbot-toggler">
-        <span className="material-symbols-rounded">chat</span>
+        <span className="material-symbols-rounded">↑</span>
       </button>
 
       {/* Chatbot popup */}
@@ -76,7 +76,7 @@ const ChatBot = () => {
             onClick={() => setShowChatbot(prev => !prev)}
             className="material-symbols-rounded"
           >
-            close
+            ↓
           </button>
         </div>
 

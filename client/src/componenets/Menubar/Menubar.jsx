@@ -82,9 +82,9 @@ const Menubar = () => {
                                 <a href="#" className="dropdown-item">
                                     Activity log
                                 </a>
-                                <li>
+                                {/* <li> */}
                                     <hr className='dropdown-divider' />
-                                </li>
+                                {/* </li> */}
                                 <a href="#" className="dropdown-item" onClick={logout}>
                                     Logout
                                 </a>

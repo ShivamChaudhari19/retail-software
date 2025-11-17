@@ -1,7 +1,7 @@
 import './App.css'
 import Menubar from './componenets/Menubar/Menubar'
 
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import Dashboard from './pages/Dashboard/Dashboard'
 import Explor from './pages/Explore/Explor'
@@ -14,8 +14,8 @@ import OrderHistory from './pages/OrderHistory/OrderHistory'
 import { useContext } from 'react'
 import { AppContext } from './context/AppContext'
 import Notfound from './pages/Notfound/Notfound'
-import ChatBot from './pages/ChatBot/ChatBot'
-import BusinessGrowth from './pages/BusinessGrowth/BusinessGrowth'
+// import ChatBot from './pages/ChatBot/ChatBot'
+// import BusinessGrowth from './pages/BusinessGrowth/BusinessGrowth'
 
 function App() {
 
@@ -61,8 +61,6 @@ function App() {
         <Route path="/login" element={<LoginRoute element={<Login/>} />} />
         <Route path='/orders' element={<OrderHistory/>}/>
         <Route path="/" element={<Dashboard/>} />
-
-        
 
         <Route path="*" element={<Notfound />} />
 
