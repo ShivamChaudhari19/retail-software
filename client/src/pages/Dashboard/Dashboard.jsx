@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import "./Dashboard.css";
 import { fetchDashboardData } from "../../service/Dashboard";
 import { toast } from "react-toastify";
-// import Skeleton from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import DashboardCharts from "../../componenets/DashboardCharts/DashboardCharts";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ const Dashboard = () => {
   // const { auth, loading: authLoading } = useContext(AppContext);
 
   const [data, setData] = useState(null);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // // WAIT FOR AUTH TO BE READY
   // useEffect(() => {
@@ -24,10 +24,10 @@ const Dashboard = () => {
   //   }
   // }, [auth.token, authLoading, navigate]);
 
-  // // If still restoring auth → don’t render anything
+  // If still restoring auth → don’t render anything
   // if (authLoading) return null;
 
-  // // If no token → block UI
+  // If no token → block UI
   // if (!auth.token) return null;
 
   // LOAD DASHBOARD DATA
@@ -39,10 +39,11 @@ const Dashboard = () => {
       } catch (error) {
         console.error(error);
         toast.error("Unable to load dashboard data");
-      } finally {
-        // setLoading(false);
       }
-    };
+       finally {
+        setLoading(false);
+      }
+    }
 
     loadData();
   }, []);
@@ -59,9 +60,9 @@ const Dashboard = () => {
   //   );
   // }
 
-  if (!data) {
-    return <div className="error">Failed to load dashboard data.</div>;
-  }
+  // if (!data) {
+  //   return <div className="error">Failed to load dashboard data.</div>;
+  // }
 
   return (
     <div className="dashboard-wrapper">
