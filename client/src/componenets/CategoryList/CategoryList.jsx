@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import "./CategoryList.css";
 import { toast } from "react-hot-toast";
 import {AppContext} from "../../context/AppContext";
+import { deleteCategory } from "../../service/CategaryService";
+import axios from "axios";
 // Dummy Data (Electronic Categories)
 // const dummyCategories = [
 //   {
@@ -62,6 +64,11 @@ const CategoryList = () => {
       const updatedCategories = categories.filter(
         (category) => category.categoryID !== categoryID
       );
+      deleteCategory(categoryID).catch((error) => {
+        if (axios.isAxiosError(error)) {
+          toast.error("Failed to delete category.");
+        }
+      });
       setCategories(updatedCategories);
       toast.success("Category deleted successfully!");
     }
