@@ -1,190 +1,113 @@
+import React from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
+  BarChart, Bar,
+  PieChart, Pie,
+  LineChart, Line,
+  XAxis, YAxis, Tooltip, Legend,
   ResponsiveContainer,
-  LineChart,
-  Line
+  Cell
 } from "recharts";
 
-const COLORS = ["#0088FE", "#FF8042", "#00C49F", "#FF0000"];
+const COLORS = ["#4CAF50", "#2196F3", "#FFC107", "#FF5722", "#9C27B0"];
 
-export default function DashboardCharts({ data }) {
-  if (!data) return null;
+const DashboardCharts = ({ data }) => {
+  const orders = data?.recentOrders || [];
+  const comparison = data?.orderComparison || { today: 0, yesterday: 0 };
+  const paymentSplit = data?.paymentMethodSplit || {};
+  const orderStatusSplit = data?.orderStatusDistribution || {};
+  const salesTrend = data?.weeklySales || [];
 
-  const orders = data.resentOrders || [];
+  const paymentSplitChart = Object.entries(paymentSplit).map(([method, value]) => ({
+    name: method.toUpperCase(),
+    value,
+  }));
 
-  // ---------------------------------------------------
-  // 1) ORDERS TODAY VS YESTERDAY
-  // ---------------------------------------------------
-  const today = new Date().toISOString().slice(0, 10);
-  const yesterdayDate = new Date(Date.now() - 86400000)
-    .toISOString()
-    .slice(0, 10);
+  const orderStatusChart = Object.entries(orderStatusSplit).map(([status, value]) => ({
+    name: status.toUpperCase(),
+    value,
+  }));
 
-  const todayCount = orders.filter(o => o.createdAt.slice(0, 10) === today).length;
-  const yesterdayCount = orders.filter(o => o.createdAt.slice(0, 10) === yesterdayDate).length;
-
-  const barData = [
-    { name: "Today", value: todayCount },
-    { name: "Yesterday", value: yesterdayCount }
+  const comparisonData = [
+    { name: "Today", value: comparison.today },
+    { name: "Yesterday", value: comparison.yesterday },
   ];
 
-  // ---------------------------------------------------
-  // 2) PAYMENT METHOD SPLIT
-  // ---------------------------------------------------
-  const paymentStats = {
-    CASH: 0,
-    UPI: 0
-  };
-
-  orders.forEach(o => {
-    const pm = o.paymentMethod?.toUpperCase();
-    if (paymentStats[pm] !== undefined) {
-      paymentStats[pm] += 1;
-    }
-  });
-
-  const pieData = [
-    { name: "Cash", value: paymentStats.CASH },
-    { name: "UPI", value: paymentStats.UPI }
-  ];
-
-  // ---------------------------------------------------
-  // 3) ORDER STATUS DISTRIBUTION
-  // ---------------------------------------------------
-  const orderStatus = {
-    COMPLETED: 0,
-    PENDING: 0,
-    FAILED: 0
-  };
-
-  orders.forEach(o => {
-    const st = o.paymentDetails?.status?.toUpperCase();
-    if (orderStatus[st] !== undefined) {
-      orderStatus[st] += 1;
-    }
-  });
-
-  const orderStatusData = [
-    { name: "Completed", value: orderStatus.COMPLETED },
-    { name: "Pending", value: orderStatus.PENDING },
-    { name: "Failed", value: orderStatus.FAILED }
-  ];
-
-  // ---------------------------------------------------
-  // 4) SALES TREND (LAST 7 DAYS)
-  // ---------------------------------------------------
-  function formatDate(d) {
-    return d.toISOString().slice(0, 10);
-  }
-
-  const last7days = [];
-  for (let i = 6; i >= 0; i++) {
-    const d = new Date(Date.now() - i * 86400000);
-    const key = formatDate(d);
-
-    const totalSales = orders
-      .filter(o => o.createdAt.slice(0, 10) === key)
-      .reduce((sum, o) => sum + (o.grandTotal || 0), 0);
-
-    last7days.push({
-      day: d.toLocaleDateString("en-US", { weekday: "short" }),
-      totalSales
-    });
-  }
+  const COLORS_DYNAMIC = COLORS.slice(0, paymentSplitChart.length);
 
   return (
-    <div
-      style={{
-        marginTop: 30,
-        display: "grid",
-        gap: 20,
-        gridTemplateColumns: "repeat(auto-fit, minmax(350px, 1fr))"
-      }}
-    >
-      {/* BAR CHART */}
+    <div className="dashboard-charts">
+
+      {/* Orders Comparison */}
       <div className="chart-card">
-        <h4>Orders Comparison</h4>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={barData}>
-            <CartesianGrid strokeDasharray="3 3" />
+        <h3>Orders Comparison</h3>
+        <ResponsiveContainer width="100%" height={250}>
+          <BarChart data={comparisonData}>
             <XAxis dataKey="name" />
-            <YAxis allowDecimals={false} />
+            <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="value" fill="#0088FE" />
+            <Bar dataKey="value">
+              {comparisonData.map((_, i) => (
+                <Cell key={i} fill={COLORS[i]} />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      {/* PAYMENT METHOD PIE */}
+      {/* Payment Split */}
       <div className="chart-card">
-        <h4>Payment Method Split</h4>
-        <ResponsiveContainer width="100%" height={300}>
+        <h3>Payment Method Split</h3>
+        <ResponsiveContainer width="100%" height={260}>
           <PieChart>
-            <Tooltip />
-            <Legend />
             <Pie
-              data={pieData}
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
               dataKey="value"
-              label={(entry) => `${entry.name}: ${entry.value}`}
+              data={paymentSplitChart}
+              label={(entry) => entry.name}
             >
-              {pieData.map((_, i) => (
-                <Cell key={i} fill={COLORS[i]} />
+              {paymentSplitChart.map((_, i) => (
+                <Cell key={i} fill={COLORS_DYNAMIC[i]} />
               ))}
             </Pie>
+            <Tooltip />
           </PieChart>
         </ResponsiveContainer>
       </div>
 
-      {/* ORDER STATUS PIE */}
+      {/* Order Status Distribution */}
       <div className="chart-card">
-        <h4>Order Status Distribution</h4>
-        <ResponsiveContainer width="100%" height={300}>
+        <h3>Order Status Distribution</h3>
+        <ResponsiveContainer width="100%" height={260}>
           <PieChart>
-            <Tooltip />
-            <Legend />
             <Pie
-              data={orderStatusData}
-              cx="50%"
-              cy="50%"
-              outerRadius={110}
               dataKey="value"
-              label={(entry) => `${entry.name}: ${entry.value}`}
+              data={orderStatusChart}
+              label={(entry) => entry.name}
             >
-              {orderStatusData.map((_, i) => (
+              {orderStatusChart.map((_, i) => (
                 <Cell key={i} fill={COLORS[i]} />
               ))}
             </Pie>
+            <Tooltip />
           </PieChart>
         </ResponsiveContainer>
       </div>
 
-      {/* SALES TREND */}
-      <div className="chart-card">
-        <h4>Sales Trend (Last 7 Days)</h4>
+      {/* Sales Trend */}
+      <div className="chart-card wide">
+        <h3>Sales Trend (Last 7 Days)</h3>
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={last7days}>
-            <CartesianGrid strokeDasharray="3 3" />
+          <LineChart data={salesTrend}>
             <XAxis dataKey="day" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Line type="monotone" dataKey="totalSales" stroke="#00C49F" strokeWidth={2} />
+            <Line type="monotone" dataKey="totalSales" stroke="#2196F3" strokeWidth={3} />
           </LineChart>
         </ResponsiveContainer>
       </div>
+
     </div>
   );
-}
+};
+
+export default DashboardCharts;
