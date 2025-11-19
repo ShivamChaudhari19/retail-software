@@ -5,7 +5,9 @@ import ChatBotIcons from '../../componenets/ChatBot/ChatBotIcons';
 import './ChatBot.css';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+
 const ChatBot = () => {
+  
   const [chatHistory, setChatHistory] = useState([]);
   const [showChatbot, setShowChatbot] = useState(false);
   const chatBodyRef = useRef();
@@ -61,6 +63,7 @@ const ChatBot = () => {
   return (
     <div className={`container ${showChatbot ? "show-chatbot" : ""}`}>
       {/* Chat toggle button */}
+      
       <button onClick={() => setShowChatbot(prev => !prev)} id="chatbot-toggler">
         <span className="material-symbols-rounded">↑</span>
       </button>

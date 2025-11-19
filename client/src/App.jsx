@@ -2,7 +2,7 @@ import './App.css';
 import Menubar from './componenets/Menubar/Menubar';
 
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
-
+import ChatBot from "./pages/ChatBot/ChatBot"
 import Dashboard from './pages/Dashboard/Dashboard';
 import Explor from './pages/Explore/Explor';
 import ManageItems from './pages/ManageItems/ManageItems';
@@ -46,6 +46,7 @@ function App() {
 
       <Routes>
 
+
         {/* Protected (requires login) */}
         <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
         <Route path="/explore" element={<ProtectedRoute element={<Explor />} />} />
@@ -56,6 +57,7 @@ function App() {
         <Route path="/users" element={<ProtectedRoute element={<ManageUsers />} allowedRoles={['ROLE_ADMIN']} />} />
         <Route path="/items" element={<ProtectedRoute element={<ManageItems />} allowedRoles={['ROLE_ADMIN']} />} />
 
+
         {/* Public */}
         <Route path="/login" element={<LoginRoute element={<Login />} />} />
 
@@ -65,6 +67,7 @@ function App() {
         {/* 404 */}
         <Route path="*" element={<Notfound />} />
       </Routes>
+      {!hideMenu && <ChatBot />}
     </div>
   );
 }
