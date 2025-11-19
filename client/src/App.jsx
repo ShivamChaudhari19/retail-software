@@ -1,23 +1,6 @@
 import './App.css';
 import Menubar from './componenets/Menubar/Menubar';
 
-<<<<<<< HEAD
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-
-import Dashboard from './pages/Dashboard/Dashboard'
-import Explor from './pages/Explore/Explor'
-import ManageItems from './pages/ManageItems/ManageItems'
-import ManageUsers from './pages/ManageUsers/ManageUsers'
-import ManageCategoties from './pages/ManageCategories/ManageCategoties'
-import {Toaster} from "react-hot-toast"
-import Login from './pages/Login/Login'
-import OrderHistory from './pages/OrderHistory/OrderHistory'
-import { useContext } from 'react'
-import { AppContext } from './context/AppContext'
-import Notfound from './pages/Notfound/Notfound'
-// import ChatBot from './pages/ChatBot/ChatBot'
-// import BusinessGrowth from './pages/BusinessGrowth/BusinessGrowth'
-=======
 import { Route, Routes, useLocation, Navigate } from 'react-router-dom';
 
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -32,7 +15,6 @@ import OrderHistory from './pages/OrderHistory/OrderHistory';
 import { useContext } from 'react';
 import { AppContext } from './context/AppContext';
 import Notfound from './pages/Notfound/Notfound';
->>>>>>> 146f98a9858ed29f2bffe7f75911c92ace48d369
 
 function App() {
 
