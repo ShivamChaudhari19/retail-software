@@ -48,7 +48,7 @@ function App() {
 
         {/* Protected (requires login) */}
         <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-        <Route path="/explor" element={<ProtectedRoute element={<Explor />} />} />
+        <Route path="/explore" element={<ProtectedRoute element={<Explor />} />} />
         <Route path="/orders" element={<ProtectedRoute element={<OrderHistory />} />} />
 
         {/* Admin-only routes */}

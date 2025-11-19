@@ -11,8 +11,8 @@ const CategoryFrom = () => {
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
         name: "",
-        descripation: "",
-        bgColor: "#2c2c2c",
+        description: "",
+        bgColour: "#2c2c2c",
     });
 
     useEffect(() => {
@@ -34,8 +34,9 @@ const CategoryFrom = () => {
             return;
         }
         const formData = new FormData();
-        formData.append("category", JSON.stringify(data));
+        formData.append("categoryRequest", JSON.stringify(data));
         formData.append("file", image);
+        console.log("Form Data:", formData.get("categoryRequest"), formData.get("file"));
         try{
             const response = await addCategory(formData);
             if(response.status === 201 || response.status === 200){
@@ -83,15 +84,15 @@ const CategoryFrom = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="descripation" className="form-label">Descripation</label>
+                                <label htmlFor="description" className="form-label">Description</label>
                                 <textarea
                                     rows="5"
-                                    name="descripation"
-                                    id="descripation"
+                                    name="description"
+                                    id="description"
                                     className="form-control"
                                     placeholder="Write context here..."
                                     onChange={onChangeHandler}
-                                    value={data.descripation}
+                                    value={data.description}
                                 ></textarea>
                             </div>
                             <div className="mb-3">
@@ -102,7 +103,7 @@ const CategoryFrom = () => {
                                     id="bgColor"
                                     placeholder="#ffffff"
                                     onChange={onChangeHandler}
-                                    value={data.bgColor}
+                                    value={data.bgColour}
                                     
                                 />
                             </div>

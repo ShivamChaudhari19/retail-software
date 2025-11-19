@@ -1,6 +1,7 @@
 import axios from "axios"
 
 export const addCategory = async (category) => {
+  console.log("Adding category:", category);
   return await axios.post('http://localhost:8080/api/v1.0/admin/categories', category, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}});
 }
 

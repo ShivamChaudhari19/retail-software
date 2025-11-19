@@ -74,8 +74,11 @@ export const AppContextProvider = ({ children }) => {
 
                 setCategories(response.data || []);
                 setItemsData(items.data || []);
+                console.log("Fetched categories:", response.data);
+                console.log("Fetched items:", items.data);
             } catch (err) {
                 console.error("Failed to load data:", err);
+
             }
 
             setLoading(false);
@@ -83,6 +86,7 @@ export const AppContextProvider = ({ children }) => {
 
         loadData();
     }, []);
+
 
     const contextValue = useMemo(
         () => ({

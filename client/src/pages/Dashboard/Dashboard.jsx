@@ -1,34 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import { fetchDashboardData } from "../../service/Dashboard";
 import { toast } from "react-toastify";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import DashboardCharts from "../../componenets/DashboardCharts/DashboardCharts";
-import { useNavigate } from "react-router-dom";
-import { AppContext } from "../../context/AppContext";
 
 const Dashboard = () => {
-  // const navigate = useNavigate();
-  // const { auth, loading: authLoading } = useContext(AppContext);
-
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  // // WAIT FOR AUTH TO BE READY
-  // useEffect(() => {
-  //   if (authLoading) return;     // Prevent early redirect during context init
-
-  //   if (!auth.token) {
-  //     navigate("/login", { replace: true });
-  //   }
-  // }, [auth.token, authLoading, navigate]);
-
-  // If still restoring auth → don’t render anything
-  // if (authLoading) return null;
-
-  // If no token → block UI
-  // if (!auth.token) return null;
+  const [loading, setLoading] = useState(true);
 
   // LOAD DASHBOARD DATA
   useEffect(() => {
@@ -36,33 +16,34 @@ const Dashboard = () => {
       try {
         const response = await fetchDashboardData();
         setData(response.data);
+        console.log("Dashboard data:", response.data);
       } catch (error) {
         console.error(error);
         toast.error("Unable to load dashboard data");
-      }
-       finally {
+      } finally {
         setLoading(false);
       }
-    }
+    };
 
     loadData();
   }, []);
 
-  // LOADING SKELETON
-  // if (loading) {
-  //   return (
-  //     <div className="dashboard-wrapper">
-  //       <div className="dashboard-container">
-  //         <Skeleton height={120} count={2} style={{ marginBottom: "20px" }} />
-  //         <Skeleton height={300} />
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  // LOADING STATE
+  if (loading) {
+    return (
+      <div className="dashboard-wrapper">
+        <div className="dashboard-container">
+          <Skeleton height={120} count={2} style={{ marginBottom: "20px" }} />
+          <Skeleton height={300} />
+        </div>
+      </div>
+    );
+  }
 
-  // if (!data) {
-  //   return <div className="error">Failed to load dashboard data.</div>;
-  // }
+  // SAFETY CHECK
+  if (!data) {
+    return <div className="error">Failed to load dashboard data.</div>;
+  }
 
   return (
     <div className="dashboard-wrapper">
@@ -114,6 +95,14 @@ const Dashboard = () => {
               </thead>
 
               <tbody>
+                {data.resentOrders?.length === 0 && (
+                  <tr>
+                    <td colSpan="6" className="text-center">
+                      No orders found
+                    </td>
+                  </tr>
+                )}
+
                 {data.resentOrders?.map((order) => (
                   <tr key={order.orderId}>
                     <td>{order.orderId.substring(0, 8)}...</td>
@@ -121,13 +110,17 @@ const Dashboard = () => {
                     <td>₹{order.grandTotal.toFixed(2)}</td>
 
                     <td>
-                      <span className={`payment-method ${order.paymentMethod.toLowerCase()}`}>
+                      <span
+                        className={`payment-method ${order.paymentMethod.toLowerCase()}`}
+                      >
                         {order.paymentMethod}
                       </span>
                     </td>
 
                     <td>
-                      <span className={`status-badge ${order.paymentDetails.status.toLowerCase()}`}>
+                      <span
+                        className={`status-badge ${order.paymentDetails.status.toLowerCase()}`}
+                      >
                         {order.paymentDetails.status}
                       </span>
                     </td>

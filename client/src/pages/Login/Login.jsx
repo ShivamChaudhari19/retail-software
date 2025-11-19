@@ -30,6 +30,8 @@ const Login = () => {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.role);
             setAuthData(response.data.token, response.data.role)
+            console.log("Login token:", localStorage.getItem("token"));
+            console.log("Login role:", localStorage.getItem("role"));
             navigate("./dashboard")
            }
         }catch(error) {
