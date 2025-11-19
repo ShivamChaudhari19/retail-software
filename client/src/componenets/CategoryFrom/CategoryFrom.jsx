@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import Uplode from "../../assets/uplode.png"
 import { toast } from 'react-toastify';
 import { AppContext } from "../../context/AppContext"
+import { addCategory } from "../../service/CategaryService";
   
 const CategoryFrom = () => {
 
@@ -10,8 +11,8 @@ const CategoryFrom = () => {
     const [image, setImage] = useState(false);
     const [data, setData] = useState({
         name: "",
-        descripation: "",
-        bgColor: "#2c2c2c",
+        description: "",
+        bgColour: "#2c2c2c",
     });
 
     useEffect(() => {
@@ -29,15 +30,17 @@ const CategoryFrom = () => {
         setLoading(true);
         if (!image){
             toast.error("Select image for category");
+            setLoading(false);
             return;
         }
         const formData = new FormData();
-        formData.append("category", JSOW.stringify(data));
+        formData.append("categoryRequest", JSON.stringify(data));
         formData.append("file", image);
+        console.log("Form Data:", formData.get("categoryRequest"), formData.get("file"));
         try{
             const response = await addCategory(formData);
-            if(response.status === 201){
-               setCategories([...setCategories, response.data]);
+            if(response.status === 201 || response.status === 200){
+               setCategories([...categories, response.data]);
                toast.success("Category Added");
                setData({
                 name: "",
@@ -45,10 +48,12 @@ const CategoryFrom = () => {
                 bgColor:"#2c2c2c",
                });
                setImage(false);
+            } else {
+               toast.error("Failed to add category");
             }
         }catch(error){
-            console.error(err);
-            toast.error("Error adding catgegory")
+            console.error(error);
+            toast.error("Error adding category")
         }finally{
             setLoading(false)
         }
@@ -79,15 +84,15 @@ const CategoryFrom = () => {
                                 />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="descripation" className="form-label">Descripation</label>
+                                <label htmlFor="description" className="form-label">Description</label>
                                 <textarea
                                     rows="5"
-                                    name="descripation"
-                                    id="descripation"
+                                    name="description"
+                                    id="description"
                                     className="form-control"
                                     placeholder="Write context here..."
                                     onChange={onChangeHandler}
-                                    value={data.descripation}
+                                    value={data.description}
                                 ></textarea>
                             </div>
                             <div className="mb-3">
@@ -98,7 +103,7 @@ const CategoryFrom = () => {
                                     id="bgColor"
                                     placeholder="#ffffff"
                                     onChange={onChangeHandler}
-                                    value={data.bgColor}
+                                    value={data.bgColour}
                                     
                                 />
                             </div>

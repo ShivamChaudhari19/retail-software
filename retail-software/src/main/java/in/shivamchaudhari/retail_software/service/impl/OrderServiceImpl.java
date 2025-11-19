@@ -10,11 +10,14 @@ import in.shivamchaudhari.retail_software.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,11 +27,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    // @Value("${my-secret-key}")    wrong
-
-    // correct
-    @Value("${jwt.secret.key}")
-    private final String secret="mysecretkeyfortheapplication789387&(";
+    //fixme: String value of my.secret.key not injecting while building of the project
+    @Value("${razorpay.key.secret}")
+    private String secret;
     private final OrderEntityRepository orderEntityRepository;
     @Override
     public OrderResponse createOrder(OrderRequest request) {
@@ -118,8 +119,8 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity existingOrder=orderEntityRepository.findByOrderId(request.getOrderId()).orElseThrow(()->new RuntimeException("order not found: "+request.getOrderId()));
 
         // TODO: security check — make sure Razorpay orderId matches the one stored in DB
-        if(!existingOrder.getPaymentDetails().getRazorpayOrderId().equals(request.getRazorpayOrderId()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid razorpay order id reference");
+//        if(!existingOrder.getPaymentDetails().getRazorpayOrderId().equals(request.getRazorpayOrderId()))
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"invalid razorpay order id reference");
         if(!verifyRazorpaySignature(request.getRazorpayOrderId(),
                 request.getRazorpayPaymentId(),
                 request.getRazorpaySignature())
@@ -135,6 +136,24 @@ public class OrderServiceImpl implements OrderService {
 //        existingOrder.setPaymentDetails(paymentDetails);
         existingOrder=orderEntityRepository.save(existingOrder);
         return convertToOrderResponse(existingOrder);
+    }
+
+    @Override
+    public Double sumSalesByDate(LocalDate date) {
+        return orderEntityRepository.sumSaleByDate(date);
+    }
+
+    @Override
+    public Long countByOrderDate(LocalDate date) {
+        return orderEntityRepository.countByOrderDate(date);
+    }
+
+    @Override
+    public List<OrderResponse> findRecentOrders() {
+        return orderEntityRepository.findRecentOrders(PageRequest.of(0,5))
+                .stream()
+                .map(this::convertToOrderResponse)
+                .collect(Collectors.toList());
     }
 
 

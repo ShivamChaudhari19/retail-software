@@ -60,6 +60,7 @@ const ItemList = () => {
       {/* Category cards */}
       <div className="row g-3 pe-2">
         {filteredItems.map((item, index) => {
+          return(
           <div className='col-12' key={index}>
             <div className='card p-3 bg-dark'>
               <div className="d-flex align-items-center">
@@ -83,6 +84,7 @@ const ItemList = () => {
               </div>
             </div>
           </div>
+          )
         })}
       </div>
     </div>

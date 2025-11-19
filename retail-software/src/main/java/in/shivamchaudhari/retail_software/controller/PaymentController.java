@@ -18,6 +18,10 @@ public class PaymentController {
     private final RazorpayService razorpayService;
     private final OrderService orderService;
 
+
+//todo: here we are requesting for amount and currency
+//todo: for security reasons don't take payment directly from frontend
+//todo: instead take order id from frontend then calculate total amount for payment-order from order items
     @PostMapping("/create-order")
     @ResponseStatus(HttpStatus.CREATED)
     public RazorpayOrderResponse createRazorpayOrder(@RequestBody PaymentRequest request)   throws RazorpayException {
