@@ -1,9 +1,9 @@
 import React from 'react'
 import "./Category.css"
-const Category = ({CategoryName, imgUrl, numberOfItems, bgColor, isSelected, onClick}) => {
+const Category = ({CategoryName, imgUrl, numberOfItems, bgColour, isSelected, onClick}) => {
   return (
     <div className="d-flex align-items-center p-3 rounded gap-1 position-relative category-hover"
-    style={{backgroundColor: bgColor, cursor: 'pointer'}}
+    style={{backgroundColor: bgColour, cursor: 'pointer'}}
     onClick={onClick}
     >
       <div style={{position:'relative', marginRight:'15px'}}>

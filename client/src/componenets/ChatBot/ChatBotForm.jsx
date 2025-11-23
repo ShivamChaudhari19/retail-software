@@ -11,6 +11,8 @@ const ChatBotForm = ({chatHistory, setChatHistory, generateBotResponse}) => {
         if (!message.trim()) return;
 
         // Add user's message to chat
+        console.log("msg", message);
+        
         const newChat = { role: "user", text: message };
         const updatedHistory = [...chatHistory, newChat];
         setChatHistory(updatedHistory);

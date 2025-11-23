@@ -31,16 +31,16 @@ const ItemList = () => {
 
   return (
     <div
-      className="category-list-container container py-3"
+      className="py-3"
       style={{
         minHeight: "75vh",
         overflowY: "auto",
         overflowX: "hidden",
-        backgroundColor: "#f7f7f7",
+        // backgroundColor: "#f7f7f7",
       }}
     >
       {/* Search bar */}
-      <div className="row mb-3 pe-2">
+      <div className="row mb-3 -2">
         <div className="input-group">
           <input
             type="text"

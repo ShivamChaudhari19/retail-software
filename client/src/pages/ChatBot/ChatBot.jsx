@@ -25,7 +25,7 @@ const ChatBot = () => {
       return text;
     } catch (error) {
       console.error("Error generating content:", error);
-      return "Sorry, I couldn’t process that.";
+      return "You reached maximum limit of requests. Please upgrate your plan or Try again later.";
     }
   };
 
@@ -45,7 +45,7 @@ const ChatBot = () => {
       console.error("Error generating bot response:", error);
       setChatHistory(prev => [
         ...prev.filter(msg => msg.text !== "Typing..."),
-        { role: "bot", text: "Something went wrong. Please try again." }
+        { role: "bot", text: "Too many requests. Please try again later." }
       ]);
     }
   };

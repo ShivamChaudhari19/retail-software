@@ -45,7 +45,7 @@ const CategoryFrom = () => {
                setData({
                 name: "",
                 descripation: "",
-                bgColor:"#2c2c2c",
+                bgColour:"#2c2c2c",
                });
                setImage(false);
             } else {
@@ -96,11 +96,11 @@ const CategoryFrom = () => {
                                 ></textarea>
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="bgcolor" className="form-label">Background Color</label>
+                                <label htmlFor="bgColour" className="form-label">Background Colour</label>
                                 <br />
                                 <input type="color"
-                                    name="bgColor"
-                                    id="bgColor"
+                                    name="bgColour"
+                                    id="bgColour"
                                     placeholder="#ffffff"
                                     onChange={onChangeHandler}
                                     value={data.bgColour}

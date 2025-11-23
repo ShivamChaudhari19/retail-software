@@ -9,7 +9,7 @@ const DisplayCategory = ({selectedCategory, setSelectedCategory, categories}) =>
               categoryName = "All Items"
               // imgUrl= {assets.device}
               numberOfItems={categories.reduce((acc, cat) => acc + cat.items, 0)}
-              bgColor= "#6c757d"
+              bgColour= "#6c757d"
               isSelected={selectedCategory === ""}
               onClick={() => setSelectedCategory("")}
               
@@ -21,7 +21,7 @@ const DisplayCategory = ({selectedCategory, setSelectedCategory, categories}) =>
               categoryName = {category.name}
               imgUrl={category.imgUrl}
               numberOfItems={category.items}
-              bgColor={category.bgColor}
+              bgColour={category.bgColour}
               isSelected={selectedCategory === category.categoryId}
               onClick={() => setSelectedCategory(categories.categoryId)}
               

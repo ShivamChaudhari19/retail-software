@@ -22,12 +22,12 @@ const UserList = ({ users, setUsers }) => {
 
   return (
     <div
-      className="user-list-container container py-3"
+      className="user-list-container py-3"
       style={{
         minHeight: "75vh",
         overflowY: "auto",
         overflowX: "hidden",
-        backgroundColor: "#f7f7f7",
+        // backgroundColor: "#f7f7f7",
       }}
     >
       {/* Search bar */}

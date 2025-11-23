@@ -1,52 +1,9 @@
 import { useContext, useState } from "react";
 import "./CategoryList.css";
 import { toast } from "react-hot-toast";
-import {AppContext} from "../../context/AppContext";
-import { deleteCategory } from "../../service/CategaryService";
+import { AppContext } from "../../context/AppContext";
+import { deleteCategory, fetchCategories } from "../../service/CategaryService";
 import axios from "axios";
-// Dummy Data (Electronic Categories)
-// const dummyCategories = [
-//   {
-//     categoryID: 1,
-//     name: "Smartphones",
-//     items: 15,
-//     imgUrl: "https://cdn-icons-png.flaticon.com/512/747/747376.png",
-//     bgColor: "#FFFFFF",
-//     textColor: "#000000",
-//   },
-//   {
-//     categoryID: 2,
-//     name: "Laptops",
-//     items: 10,
-//     imgUrl: "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
-//     bgColor: "#FFFFFF",
-//     textColor: "#000000",
-//   },
-//   {
-//     categoryID: 3,
-//     name: "Headphones",
-//     items: 8,
-//     imgUrl: "https://cdn-icons-png.flaticon.com/512/1042/1042339.png",
-//     bgColor: "#FFFFFF",
-//     textColor: "#000000",
-//   },
-//   {
-//     categoryID: 4,
-//     name: "Smartwatches",
-//     items: 6,
-//     imgUrl: "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
-//     bgColor: "#FFFFFF",
-//     textColor: "#000000",
-//   },
-//   {
-//     categoryID: 5,
-//     name: "Televisions",
-//     items: 9,
-//     imgUrl: "https://cdn-icons-png.flaticon.com/512/3104/3104009.png",
-//     bgColor: "#FFFFFF",
-//     textColor: "#000000",
-//   },
-// ];
 
 const CategoryList = () => {
   const { categories, setCategories } = useContext(AppContext);
@@ -59,29 +16,35 @@ const CategoryList = () => {
   );
 
   // Delete category
-  const deleteByCategoryID = (categoryID) => {
+  const deleteByCategoryID = async (categoryID) => {
+    if (!categoryID) {
+      toast.error("Invalid category ID");
+      return;
+    }
+
     if (window.confirm("Are you sure you want to delete this category?")) {
-      const updatedCategories = categories.filter(
-        (category) => category.categoryID !== categoryID
-      );
-      deleteCategory(categoryID).catch((error) => {
-        if (axios.isAxiosError(error)) {
-          toast.error("Failed to delete category.");
-        }
-      });
-      setCategories(updatedCategories);
-      toast.success("Category deleted successfully!");
+      try {
+        await deleteCategory(categoryID);
+        toast.success("Category deleted successfully!");
+
+        const response = await fetchCategories();
+        setCategories(response.data);
+      } catch (error) {
+        toast.error("Failed to delete category.");
+      }
     }
   };
 
+  console.log("Categories in CategoryList:", categories);
+
   return (
     <div
-      className="category-list-container container py-3"
+      className="py-3"
       style={{
         minHeight: "75vh",
         overflowY: "auto",
         overflowX: "hidden",
-        backgroundColor: "#f7f7f7",
+        // backgroundColor: "#f7f7f7",
       }}
     >
       {/* Search bar */}
@@ -110,7 +73,7 @@ const CategoryList = () => {
               <div
                 className="card p-3 shadow-sm border-0 rounded-3"
                 style={{
-                  backgroundColor: category.bgColor,
+                  backgroundColor: category.bgColour,
                   color: category.textColor,
                 }}
               >
@@ -136,7 +99,10 @@ const CategoryList = () => {
                   <div>
                     <button
                       className="btn btn-outline-danger btn-sm"
-                      onClick={() => deleteByCategoryID(category.categoryID)}
+                      onClick={() => {
+                        // console.log("Deleting category with ID:", category);
+                        deleteByCategoryID(category.categoryId);
+                      }}
                     >
                       <i className="bi bi-trash"></i>
                     </button>
@@ -156,45 +122,3 @@ const CategoryList = () => {
 export default CategoryList;
 
 
-
-
-
-
-// import { useContext, useState } from "react";
-// import "./CategoryList.css";
-// import { toast } from "react-hot-toast";
-// import { AppContext } from "../../context/AppContext";
-
-// const CategoryList = () => {
-
-//   const { categories } = useContext(AppContext)
-
-//   return (
-//     <div>
-//       <div className="category-list-container" style={{ height: "100vh", overflowY: 'auto', overflowX: 'hidden' }}>
-//         <div className="row pe2">
-//           search Bar
-//         </div>
-//         <div className="row g-3 pe-2">
-//           {categories.map((category, index) => (
-//             <div key={index} className="col-12">
-//               <div className="card p-3" style={{ background: category.bgColore }}>
-//                 <div className="d-flex align-items-center">
-//                   <div style={{ marginRight: "15px" }}>
-//                     <img src={category.imaURl} alt={category.name} className="category-image"/>
-//                   </div>
-//                   <div className="flex-grow-1">
-//                     <h5 className="mb-1 text-white">{category.name}</h5>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default CategoryList
