@@ -11,7 +11,7 @@ const Explor = () => {
 
   const {categories} = useContext(AppContext)
   const[selectedCategory, setSelectedCategory] = useState("");
-
+  
   const [customerName, setCustomerName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
 

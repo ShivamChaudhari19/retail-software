@@ -1,49 +1,58 @@
-import React, { useContext } from 'react'
-import './CardItem.css'  
-import { AppContext } from '../../context/AppContext'
+import React, { useContext } from "react";
+import "./CardItem.css";
+import { AppContext } from "../../context/AppContext";
 
 const CardItem = () => {
-  const {cartItems, removeFromCrat, updateQuantity} = useContext(AppContext);
-  // console.log('From cart items components', cartItems)
+  const { cartItems, removeFromCart, updateQuantity } = useContext(AppContext);
+
   return (
     <div className="p-3 h-100 overflow-y-auto">
       {cartItems.length === 0 ? (
-        <p className="text-light">
-          your cart is empty.
-        </p>
-      ): (
+        <p className="text-light text-center">Your cart is empty.</p>
+      ) : (
         <div className="cart-items-list">
-          {cartItems.map((item, index) => (
-            <div key={index} className="cart-item mb-3 p-3 bg-dark rounded">
+          {cartItems.map((item) => (
+            <div key={item.itemId} className="cart-item mb-3 p-3 bg-dark rounded">
               <div className="d-flex justify-content-between align-items-center mb-2">
-                <h6 className='mb-0 text-light'>{item.name}</h6>
+                <h6 className="mb-0 text-light">{item.name}</h6>
                 <p className="mb-0 text-light">
-                  Rs{(item.price * item.quentity).toFixed(2)}
+                  Rs {(item.price * item.quantity).toFixed(2)}
                 </p>
               </div>
+
               <div className="d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-2">
-                  <button className="btn btn-danger btn-sm"
-                    onClick={() => updateQuantity(item.itemId, item.quentity - 1)}
-                    disabled={item.quentity === 1} >
-                    <i className="bi bi-dash"></i> 
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => updateQuantity(item.itemId, item.quantity - 1)}
+                    disabled={item.quantity === 1}
+                  >
+                    <i className="bi bi-dash" />
                   </button>
-                  <span className='text-light'>{item.quentity}</span>
-                  <button className="btn btn-primary btn-sm" onClick={() => updateQuantity(item.itemId, item.quentity + 1)}>
-                    <i className='bi bi-plus'></i>
+
+                  <span className="text-light">{item.quantity}</span>
+
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => updateQuantity(item.itemId, item.quantity + 1)}
+                  >
+                    <i className="bi bi-plus" />
                   </button>
                 </div>
-                <button className="btn btn-danger btn-sm" style={{width:'auto'}} onClick={() => removeFromCrat(item.itemId)}>
-                  <i className="bi bi-trash"></i>
+
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => removeFromCart(item.itemId)}
+                >
+                  <i className="bi bi-trash" />
                 </button>
               </div>
             </div>
           ))}
         </div>
-      )
-    }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default CardItem
+export default CardItem;

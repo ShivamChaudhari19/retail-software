@@ -33,7 +33,7 @@ const Menubar = () => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-2">
 
             <Link className="navbar-brand" to="/dashboard">
-                <img src={Logo} alt="Logo" height="60" />
+                <img src={Logo} alt="Logo" height="40" style={{ objectFit: "contain", borderRadius: "18px" }} />
             </Link>
 
             <button
