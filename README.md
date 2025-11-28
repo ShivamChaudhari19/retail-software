@@ -40,9 +40,9 @@ The project is built with a modular architecture so new features (GST, reports, 
 - Postman (for API testing)  
 - MySQL Workbench  
 
----
-
 ## 📁 Project Structure
+
+```bash
 retail-software/
 │
 ├── client/                         # React frontend
@@ -54,7 +54,7 @@ retail-software/
 │       ├── pages/
 │       └── App.js
 │
-├── retail_software/                # Backend Spring Boot application
+├── retail_software/                # Spring Boot backend
 │   ├── src/main/java/
 │   │   └── in/shivamchaudhari/retail_software/
 │   │       ├── controller/
@@ -66,13 +66,12 @@ retail-software/
 │   ├── src/main/resources/
 │   │   └── application.properties
 │
-└── uploads/                        # Product image upload directory
-
----
+└── uploads/                        # Product image storage
 
 ## 🛠️ Setup Instructions
 
 ### **1️⃣ Clone the Repository**
+
 ```bash
 git clone https://github.com/ShivamChaudhari19/retail-software.git
 cd retail-software
